@@ -10,3 +10,8 @@ export async function saveAccountInfo(req: Request, res: Response) {
   const account = await accountService.createOrUpdate(accountData);
   res.status(httpStatus.OK).send(account);
 }
+
+export async function listAccountsOfUser(req: Request, res: Response) {
+  const accounts = await accountService.listAccountsByUserId(req.user.id);
+  res.status(httpStatus.OK).send(accounts);
+}

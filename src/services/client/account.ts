@@ -5,3 +5,8 @@ export async function createOrUpdate(accountData: AccountData) {
   const account = await Account.createOrUpdate(accountData);
   return account.getAccount();  
 }
+
+export async function listAccountsByUserId(userId: number) {
+  const accounts = await Account.listAccountsByUserId(userId);
+  return accounts.map((account) => account.getAccount());  
+}

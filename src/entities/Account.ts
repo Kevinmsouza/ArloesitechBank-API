@@ -63,4 +63,8 @@ export default class Account extends BaseEntity {
     await account.save();
     return account;
   }
+
+  static async listAccountsByUserId(userId: number) {
+    return await this.find({ where: { userId }, order: { createdAt: "ASC" } });
+  }
 }
