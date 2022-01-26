@@ -1,6 +1,7 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import bcrypt from "bcrypt";
 import EmailNotAvailableError from "@/errors/EmailNotAvailable";
+import Account from "./Account";
 
 @Entity("users")
 export default class User extends BaseEntity {
@@ -15,6 +16,9 @@ export default class User extends BaseEntity {
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
+
+  @OneToMany(() => Account, (account: Account) => account.user)
+  accounts: Account[];
 
   static async createNew(email: string, password: string) {
     await this.validateDuplicateEmail(email);
