@@ -1,7 +1,7 @@
 import EnrollmentData from "@/interfaces/enrollment";
 import Enrollment from "@/entities/Enrollment";
 
-export async function createNewEnrollment(enrollmentData: EnrollmentData) {
+export async function createOrUpdate(enrollmentData: EnrollmentData) {
   await Enrollment.createOrUpdate(enrollmentData);  
 }
 

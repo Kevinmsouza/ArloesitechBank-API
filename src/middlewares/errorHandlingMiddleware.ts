@@ -6,6 +6,7 @@ import InvalidDataError from "@/errors/InvalidData";
 import ConflictError from "@/errors/ConflictError";
 import UnauthorizedError from "@/errors/Unauthorized";
 import NotFoundError from "@/errors/NotFoundError";
+import CannotCreateAccountBeforeEnrollment from "@/errors/CannotCreateAccountBeforeEnrollment";
 
 /* eslint-disable-next-line */
 export default function errorHandlingMiddleware (err: Error, _req: Request, res: Response, _next: NextFunction) {
@@ -13,6 +14,12 @@ export default function errorHandlingMiddleware (err: Error, _req: Request, res:
   /* eslint-disable-next-line */
   console.error(err);
   if (err instanceof InvalidEmailError) {
+    return res.status(httpStatus.BAD_REQUEST).send({
+      message: err.message
+    });
+  }
+
+  if (err instanceof CannotCreateAccountBeforeEnrollment) {
     return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message
     });
