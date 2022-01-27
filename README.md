@@ -92,7 +92,7 @@ Response is the user data of the current session. Response example:
   "agency": "5706"
 }
 ```
-and a **Bearer token** on Authorization header. <br>
+, a **Bearer token** on Authorization header and the user must have created a enrollment. <br>
 Response is the user data of the current session. Response example:
 ```json
 {
@@ -105,6 +105,33 @@ Response is the user data of the current session. Response example:
 }
 ```
 
+- #### `GET /accouns` - List user accounts
+**Requires a Bearer token** on Authorization header. <br>
+Response the list of accounts of the current session. Response example:
+```json
+[
+  {
+    "id": 2,
+    "number": "21184-4",
+    "agency": "5706",
+    "balance": 0,
+    "createdAt": "2022-01-26T13:08:26.443Z",
+    "userId": 2
+  },
+  {
+    "id": 3,
+    "number": "98344-6",
+    "agency": "5706",
+    "balance": 0,
+    "createdAt": "2022-01-26T13:44:35.746Z",
+    "userId": 2
+  }
+]
+```
+
+- #### `DELETE /accounts/:accountId` - Delete a account
+**Requires a Bearer token** on Authorization header and the account must have null balance. <br>
+Response is a status code 200.
 
 ## How to run
 1. Clone this repository

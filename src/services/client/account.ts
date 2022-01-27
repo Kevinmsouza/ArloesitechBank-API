@@ -10,3 +10,7 @@ export async function listAccountsByUserId(userId: number) {
   const accounts = await Account.listAccountsByUserId(userId);
   return accounts.map((account) => account.getAccount());  
 }
+
+export async function deleteAccount(accountData: AccountData) {
+  return await Account.deleteAccount(accountData);
+}

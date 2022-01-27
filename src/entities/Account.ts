@@ -4,6 +4,8 @@ import AccountData from "@/interfaces/account";
 import ConflictError from "@/errors/ConflictError";
 import Enrollment from "./Enrollment";
 import CannotCreateAccountBeforeEnrollment from "@/errors/CannotCreateAccountBeforeEnrollment";
+import CannotDeleteAccount from "@/errors/CannotDeleteAccount";
+import NotFoundError from "@/errors/NotFoundError";
 
 @Entity("accounts")
 export default class Account extends BaseEntity {
@@ -66,5 +68,12 @@ export default class Account extends BaseEntity {
 
   static async listAccountsByUserId(userId: number) {
     return await this.find({ where: { userId }, order: { createdAt: "ASC" } });
+  }
+
+  static async deleteAccount(data: AccountData) {
+    const account = await this.findOne({ where: { id: data.id, userId: data.userId } });
+    if(!account) throw new NotFoundError();
+    if(account.balance > 0) throw new CannotDeleteAccount(account.balance);
+    account.remove();
   }
 }

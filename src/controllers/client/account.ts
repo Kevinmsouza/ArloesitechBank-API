@@ -15,3 +15,12 @@ export async function listAccountsOfUser(req: Request, res: Response) {
   const accounts = await accountService.listAccountsByUserId(req.user.id);
   res.status(httpStatus.OK).send(accounts);
 }
+
+export async function deleteAccount(req: Request, res: Response) {
+  const accountData = {
+    id: +req.params.accountId,
+    userId: req.user.id
+  } as AccountData;
+  await accountService.deleteAccount(accountData);
+  res.sendStatus(httpStatus.OK);
+}
