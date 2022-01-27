@@ -147,6 +147,28 @@ Response the account data if it pertences the current session. Response example:
 **Requires a Bearer token** on Authorization header and the account must have null balance. <br>
 Response is a status code 200.
 
+- #### `POST /transactions/deposit` - Deposit on a account
+**Requires a body** like: 
+```json
+{
+  "value": 0.01,
+  "targetAccount": {
+    "number": "21184-4",
+    "agency": "5706"
+  }
+}
+```
+Response is the transaction record generated. Response example:
+```json
+{
+  "description": "Deposit",
+  "value": 0.01,
+  "accountId": 2,
+  "id": 5,
+  "createdAt": "2022-01-27T09:07:45.214Z"
+}
+```
+
 ## How to run
 1. Clone this repository
 2. Install all dependencies

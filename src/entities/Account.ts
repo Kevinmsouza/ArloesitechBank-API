@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import User from "./User";
 import AccountData from "@/interfaces/account";
 import ConflictError from "@/errors/ConflictError";
@@ -6,6 +6,7 @@ import Enrollment from "./Enrollment";
 import CannotCreateAccountBeforeEnrollment from "@/errors/CannotCreateAccountBeforeEnrollment";
 import CannotDeleteAccount from "@/errors/CannotDeleteAccount";
 import NotFoundError from "@/errors/NotFoundError";
+import Transaction from "./Transaction";
 
 @Entity("accounts")
 export default class Account extends BaseEntity {
@@ -30,6 +31,9 @@ export default class Account extends BaseEntity {
   @ManyToOne(() => User, (user: User) => user.accounts)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Transaction, (transaction: Transaction) => transaction.account)
+  transactions: Transaction[];
 
   getAccount() {
     return{
