@@ -1,3 +1,4 @@
+import NotEnoughBalanceError from "@/errors/NotEnoughBalanceError";
 import NotFoundError from "@/errors/NotFoundError";
 import TransactionData from "@/interfaces/transaction";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -51,6 +52,30 @@ export default class Transaction extends BaseEntity {
 
     data.description = "Deposit";
     data.targetAccount.id = targetAccount.id;
+    return await this.registerTransaction(data);
+  }
+
+  static async withdraw(data: TransactionData) {
+    const targetAccount = await Account.findOne({ 
+      where: {
+        number: data.targetAccount.number,
+        agency: data.targetAccount.agency,
+        userId: data.userId
+      }
+    });
+    if(!targetAccount) throw new NotFoundError();
+
+    const newBalance = Number(targetAccount.balance) + data.value;
+    if(newBalance < 0) {
+      throw new NotEnoughBalanceError(targetAccount.balance);
+    }
+
+    targetAccount.balance = newBalance;
+    await targetAccount.save();
+
+    data.description = "Withdraw";
+    data.targetAccount.id = targetAccount.id;
+    data.value *= -1;
     return await this.registerTransaction(data);
   }
 }

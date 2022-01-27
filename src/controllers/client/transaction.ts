@@ -9,3 +9,10 @@ export async function deposit(req: Request, res: Response) {
   const transaction = await transactionService.deposit(transactionData);
   res.status(httpStatus.OK).send(transaction);
 }
+
+export async function withdraw(req: Request, res: Response) {
+  const transactionData = req.body as TransactionData;
+  transactionData.userId = req.user.id;
+  const transaction = await transactionService.withdraw(transactionData);
+  res.status(httpStatus.OK).send(transaction);
+}

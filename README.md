@@ -1,6 +1,6 @@
 ### **Routes**
 
-- #### `POST /users` - Create a user
+- #### `POST /users` - Create an user
 **Requires a body** like: 
 ```json
 {
@@ -84,7 +84,7 @@ Response is the user data of the current session. Response example:
 }
 ```
 
-- #### `POST /accounts` - Create a account
+- #### `POST /accounts` - Create an account
 **Requires a body** like: 
 ```json
 {
@@ -143,11 +143,11 @@ Response the account data if it pertences the current session. Response example:
 }
 ```
 
-- #### `DELETE /accounts/:accountId` - Delete a account
+- #### `DELETE /accounts/:accountId` - Delete an account
 **Requires a Bearer token** on Authorization header and the account must have null balance. <br>
 Response is a status code 200.
 
-- #### `POST /transactions/deposit` - Deposit on a account
+- #### `POST /transactions/deposit` - Deposit on an account
 **Requires a body** like: 
 ```json
 {
@@ -166,6 +166,29 @@ Response is the transaction record generated. Response example:
   "accountId": 2,
   "id": 5,
   "createdAt": "2022-01-27T09:07:45.214Z"
+}
+```
+
+- #### `POST /transactions/withdraw` - Withdraw from an account
+**Requires a body** like: 
+```json
+{
+  "value": 2.01,
+  "targetAccount": {
+    "number": "21184-4",
+    "agency": "5706"
+  }
+}
+```
+, a **Bearer token** on Authorization header and the account must have enough balance.
+Response is the transaction record generated. Response example:
+```json
+{
+  "description": "Withdraw",
+  "value": -2.01,
+  "accountId": 2,
+  "id": 7,
+  "createdAt": "2022-01-27T09:46:33.448Z"
 }
 ```
 

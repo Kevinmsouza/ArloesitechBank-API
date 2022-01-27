@@ -8,6 +8,7 @@ import UnauthorizedError from "@/errors/Unauthorized";
 import NotFoundError from "@/errors/NotFoundError";
 import CannotCreateAccountBeforeEnrollment from "@/errors/CannotCreateAccountBeforeEnrollment";
 import CannotDeleteAccount from "@/errors/CannotDeleteAccount";
+import NotEnoughBalanceError from "@/errors/NotEnoughBalanceError";
 
 /* eslint-disable-next-line */
 export default function errorHandlingMiddleware (err: Error, _req: Request, res: Response, _next: NextFunction) {
@@ -27,6 +28,12 @@ export default function errorHandlingMiddleware (err: Error, _req: Request, res:
   }
 
   if (err instanceof CannotDeleteAccount) {
+    return res.status(httpStatus.BAD_REQUEST).send({
+      message: err.message
+    });
+  }
+
+  if (err instanceof NotEnoughBalanceError) {
     return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message
     });
