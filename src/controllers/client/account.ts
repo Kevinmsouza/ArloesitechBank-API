@@ -24,3 +24,12 @@ export async function deleteAccount(req: Request, res: Response) {
   await accountService.deleteAccount(accountData);
   res.sendStatus(httpStatus.OK);
 }
+
+export async function getAccountById(req: Request, res: Response) {
+  const accountData = {
+    id: +req.params.accountId,
+    userId: req.user.id
+  } as AccountData;
+  const account = await accountService.getAccountById(accountData);
+  res.status(httpStatus.OK).send(account);
+}

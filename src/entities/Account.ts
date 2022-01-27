@@ -76,4 +76,10 @@ export default class Account extends BaseEntity {
     if(account.balance > 0) throw new CannotDeleteAccount(account.balance);
     account.remove();
   }
+
+  static async getAccountById(data: AccountData) {
+    const account = await this.findOne({ where: { id: data.id, userId: data.userId } });
+    if(!account) throw new NotFoundError();
+    return account;
+  }
 }

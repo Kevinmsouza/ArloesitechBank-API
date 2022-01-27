@@ -14,3 +14,8 @@ export async function listAccountsByUserId(userId: number) {
 export async function deleteAccount(accountData: AccountData) {
   return await Account.deleteAccount(accountData);
 }
+
+export async function getAccountById(accountData: AccountData) {
+  const account = await Account.getAccountById(accountData);
+  return account.getAccount();
+}
