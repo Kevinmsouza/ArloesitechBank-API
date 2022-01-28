@@ -16,3 +16,11 @@ export async function withdraw(req: Request, res: Response) {
   const transaction = await transactionService.withdraw(transactionData);
   res.status(httpStatus.OK).send(transaction);
 }
+
+export async function transfer(req: Request, res: Response) {
+  const transactionData = req.body as TransactionData;
+  transactionData.userId = req.user.id;
+  transactionData.accountId = +req.params.userAccountId;
+  const transaction = await transactionService.transfer(transactionData);
+  res.status(httpStatus.OK).send(transaction);
+}

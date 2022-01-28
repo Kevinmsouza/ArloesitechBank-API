@@ -192,6 +192,29 @@ Response is the transaction record generated. Response example:
 }
 ```
 
+- #### `POST /transactions/transfer/:userAccountId` - Transfer from user account to another account
+**Requires a body** like: 
+```json
+{
+  "value": 5.50,
+  "targetAccount": {
+    "number": "98344-6",
+    "agency": "5706"
+  }
+}
+```
+, a **Bearer token** on Authorization header and the user account must have enough balance.
+Response is the transaction record generated. Response example:
+```json
+{
+  "description": "Transfer to 5706 98344-6",
+  "value": -5.5,
+  "accountId": 2,
+  "id": 8,
+  "createdAt": "2022-01-28T05:25:11.659Z"
+}
+```
+
 ## How to run
 1. Clone this repository
 2. Install all dependencies

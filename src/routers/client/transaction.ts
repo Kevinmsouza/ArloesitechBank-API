@@ -12,5 +12,6 @@ const router = Router();
 router.post("/deposit", schemaValidatingMiddleware(transactionSchema), controller.deposit);
 router.use(authenticationMiddleware);
 router.post("/withdraw", schemaValidatingMiddleware(transactionSchema), controller.withdraw);
+router.post("/transfer/:userAccountId", schemaValidatingMiddleware(transactionSchema), controller.transfer);
 
 export default router;

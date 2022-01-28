@@ -8,3 +8,7 @@ export async function deposit(transactionData: TransactionData) {
 export async function withdraw(transactionData: TransactionData) {
   return await Transaction.withdraw(transactionData);
 }
+
+export async function transfer(transactionData: TransactionData) {
+  return await Transaction.transfer(transactionData);
+}
