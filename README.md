@@ -227,11 +227,16 @@ npm i
 ```bash
 npm run migration:run
 ```
-6. Run the back-end in a development environment:
+6. Create a test PostgreSQL database using the other as template
+```bash
+CREATE DATABASE newdb WITH TEMPLATE originaldb OWNER dbuser;
+```
+7. Configure the `.env.test` file using the `.env.example` file
+8. Run the back-end in a development environment:
 ```bash
 npm run dev
 ```
-7. Or build it and run it in production environment:
+9. Or build it and run it in production environment:
 ```bash
 npm run build
 npm start
@@ -239,6 +244,7 @@ npm start
 
 ## npm scripts to make life easier
 - `dev`: runs the back-end in development mode, watching file changes (with `npm run dev`). ESLint errors will stop the back-end from running
+- `test`: runs the automated tests in the test database indicated on `.env.test`. ESLint will try to fix errors
 - `build`: generates the JavaScript version for this project (with `npm run build`). ESLint errors will stop the bundle from being created
 - `migration:generate`: generates new migrations from typescript in a single step (with `npm run migration:generate -- -n MigrationName`)
 - `migration:run`: runs all pending migrations (with `npm run migration:run`)
