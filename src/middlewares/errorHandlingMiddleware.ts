@@ -12,9 +12,7 @@ import NotEnoughBalanceError from "@/errors/NotEnoughBalanceError";
 
 /* eslint-disable-next-line */
 export default function errorHandlingMiddleware (err: Error, _req: Request, res: Response, _next: NextFunction) {
-
-  /* eslint-disable-next-line */
-  console.error(err);
+  
   if (err instanceof InvalidEmailError) {
     return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message
