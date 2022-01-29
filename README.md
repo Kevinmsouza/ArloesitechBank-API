@@ -1,3 +1,8 @@
+# **API - Arloesitech Bank**
+this project was inspired by [this](https://github.com/Arloesitech/desafio-backend-nodejs) technical challenge
+
+[demo](https://arloesitech-bank.herokuapp.com/health)
+
 ### **Routes**
 
 - #### `POST /users` - Create an user
