@@ -66,7 +66,7 @@ export default class Transaction extends BaseEntity {
     });
     if(!targetAccount) throw new NotFoundError();
 
-    const newBalance = Number(targetAccount.balance) + data.value;
+    const newBalance = Number(targetAccount.balance) - data.value;
     if(newBalance < 0) {
       throw new NotEnoughBalanceError(targetAccount.balance);
     }
