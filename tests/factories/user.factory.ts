@@ -1,4 +1,5 @@
 import { getRepository } from "typeorm";
+import bcrypt from "bcrypt";
 import User from "../../src/entities/User";
 
 export function getValidBody() {
@@ -18,6 +19,7 @@ export function getInvalidBody() {
 export async function createUser() {
   const user = getRepository(User).create(getValidBody());
 
+  user.password = bcrypt.hashSync(user.password, 12);
   await getRepository(User).save(user);
 
   return user;
