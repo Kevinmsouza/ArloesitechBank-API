@@ -3,7 +3,24 @@ this project was inspired by [this](https://github.com/Arloesitech/desafio-backe
 
 [demo](https://arloesitech-bank.herokuapp.com/health)
 
-### **Routes**
+### **Built with**
+
+- [Node JS](https://nodejs.org/en/)
+- [Typescript](https://www.typescriptlang.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [TypeORM](https://typeorm.io/#/)
+
+ <br />
+
+
+### **Prerequisites**
+
+- npm
+
+<br />
+
+
+## **Routes**
 
 - #### `POST /users` - Create an user
 **Requires a body** like: 
