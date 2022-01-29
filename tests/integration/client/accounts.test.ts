@@ -58,7 +58,7 @@ describe("POST /accounts", () => {
   });
 });
 
-describe("GET /enrollments", () => {
+describe("GET /accounts", () => {
   let user: User;
   let session: Session;
 
@@ -87,5 +87,34 @@ describe("GET /enrollments", () => {
       ...account,
       createdAt: expect.any(String)
     }]);
+  });
+});
+
+describe("DELETE /accounts", () => {
+  let user: User;
+  let session: Session;
+
+  beforeAll(async() => {
+    await init();
+    await clearDatabase();
+    user = await userFactory.createUser();
+    session = await sessionFactory.createSession(user);
+  });
+  
+  beforeEach(async() => {
+    await clearTable(Account);
+  });
+  
+  afterAll(async() => {
+    await clearDatabase();
+    await getConnection().close();
+  });
+
+  it("should answer expected body for success", async() => {
+    const account = await accountFactory.createAccount(user);
+    const response = await supertest(app)
+      .delete(`/accounts/${account.id}`)
+      .set({ Authorization: `Bearer ${session.token}` });
+    expect(response.status).toEqual(200);
   });
 });
