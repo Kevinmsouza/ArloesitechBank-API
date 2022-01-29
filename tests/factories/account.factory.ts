@@ -17,8 +17,8 @@ export function getInvalidBody() {
   } as AccountData;
 }
 
-export async function createAccount(user: User) {
-  const accountData = getValidBody();
+export async function createAccount(user: User, accountData?: AccountData) {
+  accountData ||= getValidBody();
   accountData.userId = user.id;
 
   const account = getRepository(Account).create(accountData);
