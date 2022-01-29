@@ -2,17 +2,17 @@ import supertest from "supertest";
 import { getConnection } from "typeorm";
 import app, { init } from "../../../src/app";
 
-import Address from "../../../src/entities/Address";
-import Enrollment from "../../../src/entities/Enrollment";
+import Account from "../../../src/entities/Account";
 import Session from "../../../src/entities/Session";
 import User from "../../../src/entities/User";
 
 import * as userFactory from "../../factories/user.factory";
 import * as sessionFactory from "../../factories/session.factory";
 import * as enrollmentFactory from "../../factories/enrollment.factory";
+import * as accountFactory from "../../factories/account.factory";
 import { clearDatabase, clearTable } from "../../utils/database";
 
-describe("POST /enrollments", () => {
+describe("POST /accounts", () => {
   let user: User;
   let session: Session;
 
@@ -21,11 +21,11 @@ describe("POST /enrollments", () => {
     await clearDatabase();
     user = await userFactory.createUser();
     session = await sessionFactory.createSession(user);
+    await enrollmentFactory.createEnrollment(user);
   });
   
   beforeEach(async() => {
-    await clearTable(Address);
-    await clearTable(Enrollment);
+    await clearTable(Account);
   });
   
   afterAll(async() => {
@@ -35,25 +35,25 @@ describe("POST /enrollments", () => {
 
   it("should answer status 200 for success", async() => {
     const response = await supertest(app)
-      .post("/enrollments")
+      .post("/accounts")
       .set({ Authorization: `Bearer ${session.token}` })
-      .send(enrollmentFactory.getValidBody());
+      .send(accountFactory.getValidBody());
     expect(response.status).toBe(200);
   });
   it("should answer status 422 for invalid body", async() => {
     const response = await supertest(app)
-      .post("/enrollments")
+      .post("/accounts")
       .set({ Authorization: `Bearer ${session.token}` })
-      .send(enrollmentFactory.getInvalidBody());
+      .send(accountFactory.getInvalidBody());
     expect(response.status).toBe(422);
   });
-  it("should answer status 409 for cpf unavailable", async() => {
+  it("should answer status 409 for account unavaible", async() => {
     const otherUser = await userFactory.createUser();
-    await enrollmentFactory.createEnrollment(otherUser);
+    await accountFactory.createAccount(otherUser);
     const response = await supertest(app)
-      .post("/enrollments")
+      .post("/accounts")
       .set({ Authorization: `Bearer ${session.token}` })
-      .send(enrollmentFactory.getValidBody());
+      .send(accountFactory.getValidBody());
     expect(response.status).toBe(409);
   });
 });
@@ -70,8 +70,7 @@ describe("GET /enrollments", () => {
   });
   
   beforeEach(async() => {
-    await clearTable(Address);
-    await clearTable(Enrollment);
+    await clearTable(Account);
   });
   
   afterAll(async() => {
@@ -80,17 +79,13 @@ describe("GET /enrollments", () => {
   });
 
   it("should answer expected body for success", async() => {
-    const enrollment = await enrollmentFactory.createEnrollment(user);
+    const account = await accountFactory.createAccount(user);
     const response = await supertest(app)
-      .get("/enrollments")
+      .get("/accounts")
       .set({ Authorization: `Bearer ${session.token}` });
-    expect(response.body).toEqual({ 
-      ...enrollment,
-      address: {
-        ...enrollment.address,
-        id: expect.any(Number),
-        enrollmentId: enrollment.id
-      }
-    });
+    expect(response.body).toEqual([{
+      ...account,
+      createdAt: expect.any(String)
+    }]);
   });
 });
