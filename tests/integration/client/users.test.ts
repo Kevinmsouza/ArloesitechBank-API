@@ -35,7 +35,7 @@ describe("POST /users", () => {
     expect(response.status).toBe(422);
   });
   it("should answer status 409 for email unavailable", async() => {
-    userFactory.createUser();
+    await userFactory.createUser();
     const response = await supertest(app)
       .post("/users")
       .send(userFactory.getValidBody());
